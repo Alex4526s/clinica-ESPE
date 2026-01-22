@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Clínica ESPE - Documentación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #27AE60;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .endpoint-group {
+            margin-bottom: 40px;
+        }
+
+        .group-title {
+            font-size: 1.5em;
+            color: #27AE60;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .endpoint {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .endpoint:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .endpoint-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .method {
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9em;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .method.GET { background: #61affe; }
+        .method.POST { background: #49cc90; }
+        .method.PUT { background: #fca130; }
+        .method.DELETE { background: #f93e3e; }
+        .method.PATCH { background: #50e3c2; }
+
+        .url {
+            font-family: 'Courier New', monospace;
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+
+        .description {
+            color: #555;
+            margin: 10px 0;
+            font-size: 0.95em;
+        }
+
+        .params, .body {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .params h4, .body h4 {
+            color: #27AE60;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .param-item, .body-item {
+            padding: 5px 0;
+            margin-left: 10px;
+        }
+
+        .param-item:before, .body-item:before {
+            content: "• ";
+            color: #27AE60;
+            font-weight: bold;
+        }
+
+        .base-url {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .test-btn {
+            display: inline-block;
+            background: #27AE60;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .test-btn:hover {
+            background: #1E8449;
+            transform: scale(1.05);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .endpoint-title {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Clínica ESPE</h1>
+            <p>API REST - Sistema de Gestión de Citas Médicas v1.0.0</p>
+        </div>
+
+        <div class="content">
+            <div class="base-url">
+                <strong>Base URL:</strong><br>
+                <code style="background: #f0f0f0; padding: 5px;">http://localhost/clinica-ESPE-main/backend-api/public/index.php?endpoint=[endpoint]&id=[id]</code>
+            </div>
+
+            <div class="grid">
+                <div class="stat-card">
+                    <h3>4</h3>
+                    <p>Recursos</p>
+                </div>
+                <div class="stat-card">
+                    <h3>19</h3>
+                    <p>Endpoints</p>
+                </div>
+                <div class="stat-card">
+                    <h3>JSON</h3>
+                    <p>Formato</p>
+                </div>
+            </div>
+
+            <!-- USUARIOS -->
+            <div class="endpoint-group">
+                <h2 class="group-title">👥 Usuarios</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method GET">GET</span>
+                        <div class="url">?endpoint=usuarios</div>
+                    </div>
+                    <p class="description">Obtener todos los usuarios</p>
+                    <a href="index.php?endpoint=usuarios" class="test-btn" target="_blank">Probar</a>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method GET">GET</span>
+                        <div class="url">?endpoint=usuarios&id=1</div>
+                    </div>
+                    <p class="description">Obtener un usuario por ID</p>
+                    <div class="params">
+                        <h4>Parámetros:</h4>
+                        <div class="param-item">id: número (requerido)</div>
+                    </div>
+                    <a href="index.php?endpoint=usuarios&id=1" class="test-btn" target="_blank">Probar</a>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method POST">POST</span>
+                        <div class="url">?endpoint=usuarios</div>
+                    </div>
+                    <p class="description">Crear un nuevo usuario</p>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">nombre: string (requerido)</div>
+                        <div class="body-item">email: string (requerido, único)</div>
+                        <div class="body-item">password: string (requerido, mín. 6 caracteres)</div>
+                        <div class="body-item">rol: string (opcional: paciente, medico, admin)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method PUT">PUT</span>
+                        <div class="url">?endpoint=usuarios&id=1</div>
+                    </div>
+                    <p class="description">Actualizar un usuario</p>
+                    <div class="params">
+                        <h4>Parámetros:</h4>
+                        <div class="param-item">id: número (requerido)</div>
+                    </div>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">nombre: string (requerido)</div>
+                        <div class="body-item">email: string (requerido)</div>
+                        <div class="body-item">password: string (requerido)</div>
+                        <div class="body-item">rol: string (requerido: paciente, medico, admin)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method DELETE">DELETE</span>
+                        <div class="url">?endpoint=usuarios&id=1</div>
+                    </div>
+                    <p class="description">Eliminar un usuario</p>
+                    <div class="params">
+                        <h4>Parámetros:</h4>
+                        <div class="param-item">id: número (requerido)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESPECIALIDADES -->
+            <div class="endpoint-group">
+                <h2 class="group-title">🏥 Especialidades</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method GET">GET</span>
+                        <div class="url">?endpoint=especialidades</div>
+                    </div>
+                    <p class="description">Obtener todas las especialidades</p>
+                    <a href="index.php?endpoint=especialidades" class="test-btn" target="_blank">Probar</a>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method POST">POST</span>
+                        <div class="url">?endpoint=especialidades</div>
+                    </div>
+                    <p class="description">Crear una especialidad</p>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">nombre: string (requerido, 3-100 caracteres)</div>
+                        <div class="body-item">descripcion: string (opcional)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method PUT">PUT</span>
+                        <div class="url">?endpoint=especialidades&id=1</div>
+                    </div>
+                    <p class="description">Actualizar una especialidad</p>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">nombre: string (requerido)</div>
+                        <div class="body-item">descripcion: string (opcional)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method DELETE">DELETE</span>
+                        <div class="url">?endpoint=especialidades&id=1</div>
+                    </div>
+                    <p class="description">Eliminar una especialidad</p>
+                </div>
+            </div>
+
+            <!-- CITAS -->
+            <div class="endpoint-group">
+                <h2 class="group-title">📅 Citas</h2>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method GET">GET</span>
+                        <div class="url">?endpoint=citas</div>
+                    </div>
+                    <p class="description">Obtener todas las citas</p>
+                    <a href="index.php?endpoint=citas" class="test-btn" target="_blank">Probar</a>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method GET">GET</span>
+                        <div class="url">?endpoint=citas&id=1</div>
+                    </div>
+                    <p class="description">Obtener una cita por ID</p>
+                    <div class="params">
+                        <h4>Parámetros:</h4>
+                        <div class="param-item">id: número (requerido)</div>
+                    </div>
+                    <a href="index.php?endpoint=citas&id=1" class="test-btn" target="_blank">Probar</a>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method POST">POST</span>
+                        <div class="url">?endpoint=citas</div>
+                    </div>
+                    <p class="description">Crear una nueva cita</p>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">fecha: string (YYYY-MM-DD, requerido)</div>
+                        <div class="body-item">hora: string (HH:MM:SS, requerido)</div>
+                        <div class="body-item">paciente_id: número (requerido)</div>
+                        <div class="body-item">doctor_id: número (requerido)</div>
+                        <div class="body-item">estado: enum (pendiente, confirmada, completada, cancelada)</div>
+                        <div class="body-item">motivo: string (requerido)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method PUT">PUT</span>
+                        <div class="url">?endpoint=citas&id=1</div>
+                    </div>
+                    <p class="description">Actualizar una cita</p>
+                    <div class="body">
+                        <h4>Body (JSON):</h4>
+                        <div class="body-item">fecha: string (YYYY-MM-DD, requerido)</div>
+                        <div class="body-item">hora: string (HH:MM:SS, requerido)</div>
+                        <div class="body-item">estado: enum (requerido)</div>
+                        <div class="body-item">motivo: string (requerido)</div>
+                    </div>
+                </div>
+
+                <div class="endpoint">
+                    <div class="endpoint-title">
+                        <span class="method DELETE">DELETE</span>
+                        <div class="url">?endpoint=citas&id=1</div>
+                    </div>
+                    <p class="description">Eliminar una cita</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Clínica ESPE - API REST v1.0.0 | © 2026 Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>
