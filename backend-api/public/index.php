@@ -8,7 +8,30 @@
 error_reporting(E_ERROR | E_PARSE);
 ini_set('display_errors', '1');
 
-require_once '../../vendor/autoload.php';
+$autoload = __DIR__ . '/../../vendor/autoload.php';
+if (!file_exists($autoload)) {
+    http_response_code(500);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Autoload no encontrado',
+        'path' => $autoload
+    ]);
+    exit;
+}
+
+require_once $autoload;
+
+// Fallback directo por si el autoload no detecta las clases en despliegues case-sensitive
+foreach ([
+    __DIR__ . '/../app/Controllers/ApiController.php',
+    __DIR__ . '/../app/Controllers/UserController.php',
+    __DIR__ . '/../app/Controllers/CitaController.php',
+    __DIR__ . '/../app/Controllers/EspecialidadController.php'
+] as $manualFile) {
+    if (file_exists($manualFile)) {
+        require_once $manualFile;
+    }
+}
 
 use App\Controllers\UserController;
 use App\Controllers\CitaController;
