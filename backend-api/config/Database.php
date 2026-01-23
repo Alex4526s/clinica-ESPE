@@ -8,15 +8,29 @@ class Database {
     private static $conn;
     
     // Configuración de la base de datos
-    private static $host = 'localhost';
-    private static $dbname = 'clinica_espe_v2';
-    private static $user = 'root';
+    // Valores tomados de variables de entorno (para Render/Railway)
+    private static $host = '';
+    private static $port = '';
+    private static $dbname = '';
+    private static $user = '';
     private static $password = '';
     private static $charset = 'utf8mb4';
+
+    private static function bootEnv() {
+        if (self::$host !== '') {
+            return; // ya inicializado
+        }
+        self::$host = getenv('DB_HOST') ?: 'localhost';
+        self::$port = getenv('DB_PORT') ?: '3306';
+        self::$dbname = getenv('DB_NAME') ?: 'clinica_espe_v2';
+        self::$user = getenv('DB_USER') ?: 'root';
+        self::$password = getenv('DB_PASS') ?: '';
+    }
 
     // Método estático para obtener la conexión (Singleton)
     public static function getConnection() {
         if (self::$conn === null) {
+            self::bootEnv();
             self::$conn = self::connect();
         }
         return self::$conn;
@@ -25,9 +39,11 @@ class Database {
     // Método privado para crear la conexión
     private static function connect() {
         try {
-            $dsn = "mysql:host=" . self::$host . 
-                   ";dbname=" . self::$dbname . 
-                   ";charset=" . self::$charset;
+             $portPart = self::$port ? ";port=" . self::$port : '';
+             $dsn = "mysql:host=" . self::$host . 
+                 ";dbname=" . self::$dbname . 
+                 $portPart .
+                 ";charset=" . self::$charset;
             
             $conn = new PDO(
                 $dsn,
