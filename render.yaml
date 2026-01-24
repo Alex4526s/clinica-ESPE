@@ -18,12 +18,14 @@ services:
       - key: DB_PASS
         sync: false
 
-staticSites:
-  - name: clinica-espe-frontend
+  - type: web
+    name: clinica-espe-frontend
+    env: docker
     rootDir: clinica-espe
-    buildCommand: npm install && npm run build
-    publishPath: build
-    routes:
-      - type: rewrite
-        source: "/*"
-        destination: "/index.html"
+    dockerfilePath: Dockerfile
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: REACT_APP_API_BASE_URL
+        value: https://clinica-espe-backend.onrender.com
+        sync: false
