@@ -20,7 +20,7 @@ class Database {
         if (self::$host !== '') {
             return; // ya inicializado
         }
-        self::$host = getenv('DB_HOST') ?: 'localhost:81';
+        self::$host = getenv('DB_HOST') ?: 'localhost';
         self::$port = getenv('DB_PORT') ?: '3306';
         self::$dbname = getenv('DB_NAME') ?: 'clinica_espe_v2';
         self::$user = getenv('DB_USER') ?: 'root';

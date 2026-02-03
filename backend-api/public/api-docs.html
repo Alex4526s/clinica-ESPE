@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Clínica ESPE - Documentación</title>
+    <title>API Clínica ESPE - Documentación Interactiva</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 10px;
@@ -46,6 +46,18 @@
 
         .content {
             padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .left-panel {
+            border-right: 2px solid #e0e0e0;
+            padding-right: 30px;
+        }
+
+        .right-panel {
+            padding-left: 30px;
         }
 
         .info-box {
@@ -75,11 +87,13 @@
             padding: 20px;
             margin-bottom: 15px;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .endpoint:hover {
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transform: translateY(-2px);
+            background: #f0f8ff;
         }
 
         .endpoint-title {
@@ -113,6 +127,7 @@
             border-radius: 5px;
             overflow-x: auto;
             font-size: 0.9em;
+            flex: 1;
         }
 
         .description {
@@ -164,6 +179,8 @@
             font-size: 0.9em;
             margin-top: 10px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
         .test-btn:hover {
@@ -195,12 +212,155 @@
             opacity: 0.9;
         }
 
+        .tester-section {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #27AE60;
+            box-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .button-group button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-send {
+            background: #27AE60;
+            color: white;
+        }
+
+        .btn-send:hover {
+            background: #1E8449;
+        }
+
+        .btn-clear {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #7f8c8d;
+        }
+
+        .response-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .response-section.show {
+            display: block;
+        }
+
+        .response-header {
+            font-weight: bold;
+            color: #27AE60;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .response-code {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: white;
+            font-size: 0.8em;
+        }
+
+        .response-code.success {
+            background: #27AE60;
+        }
+
+        .response-code.error {
+            background: #e74c3c;
+        }
+
+        .response-body {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
         .footer {
             background: #f5f5f5;
             padding: 20px;
             text-align: center;
             color: #666;
             border-top: 1px solid #e0e0e0;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .left-panel {
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+
+            .right-panel {
+                padding-left: 0;
+            }
         }
 
         @media (max-width: 768px) {
@@ -223,215 +383,152 @@
     <div class="container">
         <div class="header">
             <h1>🏥 Clínica ESPE</h1>
-            <p>API REST - Sistema de Gestión de Citas Médicas v1.0.0</p>
+            <p>API REST - Sistema de Gestión de Citas Médicas | Documentación Interactiva v1.0.0</p>
         </div>
 
         <div class="content">
-            <div class="base-url">
-                <strong>Base URL:</strong><br>
-                <code style="background: #f0f0f0; padding: 5px;">https://clinica-espe.onrender.com/index.php?endpoint=[endpoint]&id=[id]</code>
-            </div>
-
-            <div class="grid">
-                <div class="stat-card">
-                    <h3>4</h3>
-                    <p>Recursos</p>
+            <!-- LEFT PANEL: ENDPOINTS DOCUMENTATION -->
+            <div class="left-panel">
+                <div class="info-box">
+                    <strong>Base URL (Local):</strong><br>
+                    <code style="background: #f0f0f0; padding: 5px;">http://localhost/clinica-ESPE-main/backend-api/public/index.php</code>
                 </div>
-                <div class="stat-card">
-                    <h3>19</h3>
-                    <p>Endpoints</p>
-                </div>
-                <div class="stat-card">
-                    <h3>JSON</h3>
-                    <p>Formato</p>
-                </div>
-            </div>
 
-            <!-- USUARIOS -->
-            <div class="endpoint-group">
-                <h2 class="group-title">👥 Usuarios</h2>
+                <div class="endpoint-group">
+                    <h2 class="group-title">👥 Usuarios</h2>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method GET">GET</span>
-                        <div class="url">?endpoint=usuarios</div>
+                    <div class="endpoint" onclick="selectEndpoint('GET', 'usuarios', null)">
+                        <div class="endpoint-title">
+                            <span class="method GET">GET</span>
+                            <div class="url">?endpoint=usuarios</div>
+                        </div>
+                        <p class="description">Obtener todos los usuarios</p>
                     </div>
-                    <p class="description">Obtener todos los usuarios</p>
-                    <a href="index.php?endpoint=usuarios" class="test-btn" target="_blank">Probar</a>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method GET">GET</span>
-                        <div class="url">?endpoint=usuarios&id=1</div>
+                    <div class="endpoint" onclick="selectEndpoint('GET', 'usuarios', '1')">
+                        <div class="endpoint-title">
+                            <span class="method GET">GET</span>
+                            <div class="url">?endpoint=usuarios&id=1</div>
+                        </div>
+                        <p class="description">Obtener un usuario por ID</p>
                     </div>
-                    <p class="description">Obtener un usuario por ID</p>
-                    <div class="params">
-                        <h4>Parámetros:</h4>
-                        <div class="param-item">id: número (requerido)</div>
-                    </div>
-                    <a href="index.php?endpoint=usuarios&id=1" class="test-btn" target="_blank">Probar</a>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method POST">POST</span>
-                        <div class="url">?endpoint=usuarios</div>
-                    </div>
-                    <p class="description">Crear un nuevo usuario</p>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">nombre: string (requerido)</div>
-                        <div class="body-item">email: string (requerido, único)</div>
-                        <div class="body-item">password: string (requerido, mín. 6 caracteres)</div>
-                        <div class="body-item">rol: string (opcional: paciente, medico, admin)</div>
+                    <div class="endpoint" onclick="selectEndpoint('POST', 'usuarios', null)">
+                        <div class="endpoint-title">
+                            <span class="method POST">POST</span>
+                            <div class="url">?endpoint=usuarios</div>
+                        </div>
+                        <p class="description">Crear un nuevo usuario</p>
+                        <div class="body">
+                            <h4>Body (JSON):</h4>
+                            <div class="body-item">nombre: string</div>
+                            <div class="body-item">email: string</div>
+                            <div class="body-item">password: string</div>
+                            <div class="body-item">rol: string (paciente, medico, admin)</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method PUT">PUT</span>
-                        <div class="url">?endpoint=usuarios&id=1</div>
+                <div class="endpoint-group">
+                    <h2 class="group-title">🏥 Especialidades</h2>
+
+                    <div class="endpoint" onclick="selectEndpoint('GET', 'especialidades', null)">
+                        <div class="endpoint-title">
+                            <span class="method GET">GET</span>
+                            <div class="url">?endpoint=especialidades</div>
+                        </div>
+                        <p class="description">Obtener todas las especialidades</p>
                     </div>
-                    <p class="description">Actualizar un usuario</p>
-                    <div class="params">
-                        <h4>Parámetros:</h4>
-                        <div class="param-item">id: número (requerido)</div>
-                    </div>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">nombre: string (requerido)</div>
-                        <div class="body-item">email: string (requerido)</div>
-                        <div class="body-item">password: string (requerido)</div>
-                        <div class="body-item">rol: string (requerido: paciente, medico, admin)</div>
+
+                    <div class="endpoint" onclick="selectEndpoint('POST', 'especialidades', null)">
+                        <div class="endpoint-title">
+                            <span class="method POST">POST</span>
+                            <div class="url">?endpoint=especialidades</div>
+                        </div>
+                        <p class="description">Crear una especialidad</p>
                     </div>
                 </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method DELETE">DELETE</span>
-                        <div class="url">?endpoint=usuarios&id=1</div>
-                    </div>
-                    <p class="description">Eliminar un usuario</p>
-                    <div class="params">
-                        <h4>Parámetros:</h4>
-                        <div class="param-item">id: número (requerido)</div>
-                    </div>
-                </div>
-            </div>
+                <div class="endpoint-group">
+                    <h2 class="group-title">📅 Citas</h2>
 
-            <!-- ESPECIALIDADES -->
-            <div class="endpoint-group">
-                <h2 class="group-title">🏥 Especialidades</h2>
+                    <div class="endpoint" onclick="selectEndpoint('GET', 'citas', null)">
+                        <div class="endpoint-title">
+                            <span class="method GET">GET</span>
+                            <div class="url">?endpoint=citas</div>
+                        </div>
+                        <p class="description">Obtener todas las citas</p>
+                    </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method GET">GET</span>
-                        <div class="url">?endpoint=especialidades</div>
+                    <div class="endpoint" onclick="selectEndpoint('GET', 'citas', '1')">
+                        <div class="endpoint-title">
+                            <span class="method GET">GET</span>
+                            <div class="url">?endpoint=citas&id=1</div>
+                        </div>
+                        <p class="description">Obtener una cita por ID</p>
                     </div>
-                    <p class="description">Obtener todas las especialidades</p>
-                    <a href="index.php?endpoint=especialidades" class="test-btn" target="_blank">Probar</a>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method POST">POST</span>
-                        <div class="url">?endpoint=especialidades</div>
+                    <div class="endpoint" onclick="selectEndpoint('POST', 'citas', null)">
+                        <div class="endpoint-title">
+                            <span class="method POST">POST</span>
+                            <div class="url">?endpoint=citas</div>
+                        </div>
+                        <p class="description">Crear una nueva cita</p>
                     </div>
-                    <p class="description">Crear una especialidad</p>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">nombre: string (requerido, 3-100 caracteres)</div>
-                        <div class="body-item">descripcion: string (opcional)</div>
-                    </div>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method PUT">PUT</span>
-                        <div class="url">?endpoint=especialidades&id=1</div>
+                    <div class="endpoint" onclick="selectEndpoint('DELETE', 'citas', '1')">
+                        <div class="endpoint-title">
+                            <span class="method DELETE">DELETE</span>
+                            <div class="url">?endpoint=citas&id=1</div>
+                        </div>
+                        <p class="description">Eliminar una cita</p>
                     </div>
-                    <p class="description">Actualizar una especialidad</p>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">nombre: string (requerido)</div>
-                        <div class="body-item">descripcion: string (opcional)</div>
-                    </div>
-                </div>
-
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method DELETE">DELETE</span>
-                        <div class="url">?endpoint=especialidades&id=1</div>
-                    </div>
-                    <p class="description">Eliminar una especialidad</p>
                 </div>
             </div>
 
-            <!-- CITAS -->
-            <div class="endpoint-group">
-                <h2 class="group-title">📅 Citas</h2>
+            <!-- RIGHT PANEL: INTERACTIVE TESTER -->
+            <div class="right-panel">
+                <h2 class="group-title">🧪 Prueba los Endpoints</h2>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method GET">GET</span>
-                        <div class="url">?endpoint=citas</div>
+                <div class="tester-section">
+                    <div class="form-group">
+                        <label>Método HTTP:</label>
+                        <select id="method" onchange="updateForm()">
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                        </select>
                     </div>
-                    <p class="description">Obtener todas las citas</p>
-                    <a href="index.php?endpoint=citas" class="test-btn" target="_blank">Probar</a>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method GET">GET</span>
-                        <div class="url">?endpoint=citas&id=1</div>
+                    <div class="form-group">
+                        <label>Endpoint:</label>
+                        <select id="endpoint" onchange="updateForm()">
+                            <option value="usuarios">usuarios</option>
+                            <option value="especialidades">especialidades</option>
+                            <option value="citas">citas</option>
+                        </select>
                     </div>
-                    <p class="description">Obtener una cita por ID</p>
-                    <div class="params">
-                        <h4>Parámetros:</h4>
-                        <div class="param-item">id: número (requerido)</div>
-                    </div>
-                    <a href="index.php?endpoint=citas&id=1" class="test-btn" target="_blank">Probar</a>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method POST">POST</span>
-                        <div class="url">?endpoint=citas</div>
+                    <div class="form-group" id="idGroup" style="display: none;">
+                        <label>ID:</label>
+                        <input type="text" id="id" placeholder="Ej: 1">
                     </div>
-                    <p class="description">Crear una nueva cita</p>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">fecha: string (YYYY-MM-DD, requerido)</div>
-                        <div class="body-item">hora: string (HH:MM:SS, requerido)</div>
-                        <div class="body-item">paciente_id: número (requerido)</div>
-                        <div class="body-item">doctor_id: número (requerido)</div>
-                        <div class="body-item">estado: enum (pendiente, confirmada, completada, cancelada)</div>
-                        <div class="body-item">motivo: string (requerido)</div>
-                    </div>
-                </div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method PUT">PUT</span>
-                        <div class="url">?endpoint=citas&id=1</div>
-                    </div>
-                    <p class="description">Actualizar una cita</p>
-                    <div class="body">
-                        <h4>Body (JSON):</h4>
-                        <div class="body-item">fecha: string (YYYY-MM-DD, requerido)</div>
-                        <div class="body-item">hora: string (HH:MM:SS, requerido)</div>
-                        <div class="body-item">estado: enum (requerido)</div>
-                        <div class="body-item">motivo: string (requerido)</div>
-                    </div>
-                </div>
+                    <div id="bodyGroup"></div>
 
-                <div class="endpoint">
-                    <div class="endpoint-title">
-                        <span class="method DELETE">DELETE</span>
-                        <div class="url">?endpoint=citas&id=1</div>
+                    <div class="button-group">
+                        <button class="btn-send" onclick="sendRequest()">Enviar Petición</button>
+                        <button class="btn-clear" onclick="clearResponse()">Limpiar</button>
                     </div>
-                    <p class="description">Eliminar una cita</p>
+
+                    <div id="responseSection" class="response-section">
+                        <div class="response-header">
+                            <span>Respuesta HTTP</span>
+                            <span id="statusCode" class="response-code">200</span>
+                        </div>
+                        <div id="responseBody" class="response-body">Esperando respuesta...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -440,5 +537,176 @@
             <p>Clínica ESPE - API REST v1.0.0 | © 2026 Todos los derechos reservados</p>
         </div>
     </div>
+
+    <script>
+        const API_BASE = 'http://localhost/clinica-ESPE-main/backend-api/public/index.php';
+
+        function selectEndpoint(method, endpoint, id) {
+            document.getElementById('method').value = method;
+            document.getElementById('endpoint').value = endpoint;
+            if (id) {
+                document.getElementById('id').value = id;
+            } else {
+                document.getElementById('id').value = '';
+            }
+            updateForm();
+        }
+
+        function updateForm() {
+            const method = document.getElementById('method').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const idGroup = document.getElementById('idGroup');
+            const bodyGroup = document.getElementById('bodyGroup');
+
+            // Mostrar campo ID para GET y DELETE
+            idGroup.style.display = (method === 'GET' && endpoint !== 'usuarios') || method === 'DELETE' ? 'block' : 'none';
+
+            // Generar campos de body para POST y PUT
+            bodyGroup.innerHTML = '';
+            if (method === 'POST' || method === 'PUT') {
+                if (endpoint === 'usuarios') {
+                    bodyGroup.innerHTML = `
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="nombre" placeholder="Ej: Juan Pérez">
+                        </div>
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="email" placeholder="Ej: juan@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Password:</label>
+                            <input type="password" id="password" placeholder="Mín. 6 caracteres">
+                        </div>
+                        <div class="form-group">
+                            <label>Rol:</label>
+                            <select id="rol">
+                                <option value="paciente">Paciente</option>
+                                <option value="medico">Médico</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    `;
+                } else if (endpoint === 'especialidades') {
+                    bodyGroup.innerHTML = `
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="nombre" placeholder="Ej: Cardiología">
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción:</label>
+                            <textarea id="descripcion" placeholder="Descripción de la especialidad"></textarea>
+                        </div>
+                    `;
+                } else if (endpoint === 'citas') {
+                    bodyGroup.innerHTML = `
+                        <div class="form-group">
+                            <label>Fecha (YYYY-MM-DD):</label>
+                            <input type="date" id="fecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Hora (HH:MM:SS):</label>
+                            <input type="time" id="hora">
+                        </div>
+                        <div class="form-group">
+                            <label>Paciente ID:</label>
+                            <input type="number" id="paciente_id" placeholder="Ej: 4">
+                        </div>
+                        <div class="form-group">
+                            <label>Doctor ID:</label>
+                            <input type="number" id="doctor_id" placeholder="Ej: 2">
+                        </div>
+                        <div class="form-group">
+                            <label>Estado:</label>
+                            <select id="estado">
+                                <option value="pendiente">Pendiente</option>
+                                <option value="confirmada">Confirmada</option>
+                                <option value="completada">Completada</option>
+                                <option value="cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Motivo:</label>
+                            <textarea id="motivo" placeholder="Motivo de la cita"></textarea>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        async function sendRequest() {
+            const method = document.getElementById('method').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const id = document.getElementById('id').value;
+            const responseSection = document.getElementById('responseSection');
+            const responseBody = document.getElementById('responseBody');
+            const statusCode = document.getElementById('statusCode');
+
+            let url = `${API_BASE}?endpoint=${endpoint}`;
+            if (id) {
+                url += `&id=${id}`;
+            }
+
+            let options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            // Construir body para POST y PUT
+            if (method === 'POST' || method === 'PUT') {
+                const body = {};
+                
+                if (endpoint === 'usuarios') {
+                    body.nombre = document.getElementById('nombre')?.value || '';
+                    body.email = document.getElementById('email')?.value || '';
+                    body.password = document.getElementById('password')?.value || '';
+                    body.rol = document.getElementById('rol')?.value || '';
+                } else if (endpoint === 'especialidades') {
+                    body.nombre = document.getElementById('nombre')?.value || '';
+                    body.descripcion = document.getElementById('descripcion')?.value || '';
+                } else if (endpoint === 'citas') {
+                    body.fecha = document.getElementById('fecha')?.value || '';
+                    body.hora = document.getElementById('hora')?.value || '';
+                    body.paciente_id = document.getElementById('paciente_id')?.value || '';
+                    body.doctor_id = document.getElementById('doctor_id')?.value || '';
+                    body.estado = document.getElementById('estado')?.value || '';
+                    body.motivo = document.getElementById('motivo')?.value || '';
+                }
+
+                options.body = JSON.stringify(body);
+            }
+
+            try {
+                responseBody.textContent = 'Enviando petición...';
+                responseSection.classList.add('show');
+
+                const response = await fetch(url, options);
+                const data = await response.text();
+                
+                statusCode.textContent = response.status;
+                statusCode.className = response.status >= 200 && response.status < 300 ? 'response-code success' : 'response-code error';
+                
+                try {
+                    responseBody.textContent = JSON.stringify(JSON.parse(data), null, 2);
+                } catch (e) {
+                    responseBody.textContent = data;
+                }
+            } catch (error) {
+                statusCode.textContent = 'ERROR';
+                statusCode.className = 'response-code error';
+                responseBody.textContent = `Error en la petición:\n${error.message}`;
+                responseSection.classList.add('show');
+            }
+        }
+
+        function clearResponse() {
+            document.getElementById('responseSection').classList.remove('show');
+        }
+
+        // Inicializar form al cargar
+        updateForm();
+    </script>
 </body>
 </html>
